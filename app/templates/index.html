@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Automated Data Analysis Tool</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Automated Data Analysis Tool</h1>
+    <form action="/analyze" method="post" enctype="multipart/form-data">
+        <label for="file">Upload CSV:</label>
+        <input type="file" name="file" id="file" required>
+        <button type="submit">Analyze</button>
+    </form>
+    <form action="/query" method="post">
+        <label for="query">Ask a question:</label>
+        <input type="text" name="query" id="query" required>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="answer"></div>
+    <script>
+        document.querySelector('form[action="/query"]').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const query = document.querySelector('#query').value;
+            const response = await fetch('/query', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: query })
+            });
+            const result = await response.json();
+            document.querySelector('#answer').innerText = result.answer;
+        });
+    </script>
+</body>
+</html>

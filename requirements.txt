@@ -1,0 +1,6 @@
+Flask
+pandas
+matplotlib
+seaborn
+openai
+jinja2
